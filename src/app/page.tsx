@@ -1,103 +1,207 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Clock } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggler";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+// -----------------------------------------------------------------------------
+// Types & helpers
+// -----------------------------------------------------------------------------
+export interface SlotPayload {
+  arenaId: string;
+  date: string; // ISO string
+  duration: number;
+}
+
+interface ApiSlotResponse {
+  // adjust these fields to match your actual backend response
+  date: string; // ISO date e.g. "2025-06-23T18:00:00.000Z"
+  startTimes: string[]; // e.g. ["07:00", "08:30", ...]
+}
+
+const sixASideID = "6761946a992c39b4c667573a";
+const fiveASideID = "67619460992c39b4c6675735";
+const duration = 90;
+// local proxy endpoint created earlier
+const API_ENDPOINT = "/api/turf/available-slots";
+
+/** Generate ISO strings for today + the next `days-1` days at local midnight */
+function getNextIsoDates(days: number = 14) {
+  const out: string[] = [];
+  const base = new Date();
+  base.setHours(0, 0, 0, 0);
+  for (let i = 0; i < days; i++) {
+    const d = new Date(base);
+    d.setDate(base.getDate() + i);
+    out.push(d.toISOString());
+  }
+  return out;
+}
+
+function buildPayloads(arenaId: string, days = 14): SlotPayload[] {
+  return getNextIsoDates(days).map((date) => ({ arenaId, date, duration }));
+}
+
+function formatDateHeader(iso: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(iso));
+}
+
+function formatTimeRange(startIso: string) {
+  const start = new Date(startIso);
+  const end = new Date(start.getTime() + duration * 60_000);
+  const fmt = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return `${fmt.format(start)} – ${fmt.format(end)}`;
+}
+
+// -----------------------------------------------------------------------------
+// Main component
+// -----------------------------------------------------------------------------
+export default function SlotsPage() {
+  const [tab, setTab] = useState<"6" | "5">("6");
+  const [data6, setData6] = useState<ApiSlotResponse[]>([]);
+  const [data5, setData5] = useState<ApiSlotResponse[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // fetch slots whenever tab changes and that dataset is empty
+  useEffect(() => {
+    async function fetchSlots(
+      arenaId: string,
+      setter: React.Dispatch<React.SetStateAction<ApiSlotResponse[]>>
+    ) {
+      setLoading(true);
+      try {
+        const payloads = buildPayloads(arenaId);
+        const results = await Promise.all(
+          payloads.map((p) => axios.post(API_ENDPOINT, p).then((r) => r.data))
+        );
+        // results: flat list ➜ group by date
+        const grouped: Record<string, string[]> = {};
+        results.forEach((times, i) => {
+          const payloadDate = payloads[i].date;
+          if (Array.isArray(times)) {
+            grouped[payloadDate] = times;
+          } else {
+            console.warn("Unexpected API response for", payloadDate, times);
+          }
+        });
+
+        const array: ApiSlotResponse[] = Object.entries(grouped).map(
+          ([date, startTimes]) => ({ date, startTimes })
+        );
+        setter(array);
+      } catch (err) {
+        console.error("slot fetch error", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (tab === "6" && data6.length === 0) fetchSlots(sixASideID, setData6);
+    if (tab === "5" && data5.length === 0) fetchSlots(fiveASideID, setData5);
+  }, [tab, data6.length, data5.length]);
+
+  const currentData = tab === "6" ? data6 : data5;
+
+  // Tooltip-like message if no data yet
+  const content = useMemo(() => {
+    if (loading && currentData.length === 0) {
+      return (
+        <div className="flex flex-col items-center gap-2 py-24">
+          <Loader2 className="animate-spin text-primary" />
+          <span className="text-muted-foreground">Fetching slots…</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      );
+    }
+    if (currentData.length === 0) {
+      return (
+        <p className="text-center text-muted-foreground py-24">
+          No slots available.
+        </p>
+      );
+    }
+
+    return (
+      <div className="flex">
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 },
+            },
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {currentData.map(({ date, startTimes }) => (
+            <motion.div
+              key={date}
+              variants={{
+                hidden: { y: 20, opacity: 0 },
+                visible: { y: 0, opacity: 1 },
+              }}
+            >
+              <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="bg-primary/10">
+                  <CardTitle>{formatDateHeader(date)}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-2 py-4">
+                  {startTimes.length ? (
+                    startTimes.map((iso) => (
+                      <Badge key={iso} variant="secondary" className="gap-1">
+                        <Clock className="h-4 w-4" />
+                        {formatTimeRange(iso)}
+                      </Badge>
+                    ))
+                  ) : (
+                    <span className="text-muted-foreground text-sm">
+                      No slots
+                    </span>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    );
+  }, [currentData, loading]);
+
+  return (
+    <main className="flex flex-col justify-center py-10 max-w-6xl space-y-8 px-10">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+      <Tabs
+        value={tab}
+        onValueChange={(v) => setTab(v as "6" | "5")}
+        className="w-full"
+      >
+        <TabsList className="mx-auto w-fit bg-primary/10">
+          <TabsTrigger value="6">6‑a‑side</TabsTrigger>
+          <TabsTrigger value="5">5‑a‑side</TabsTrigger>
+        </TabsList>
+        <TabsContent value="6" className="mt-8">
+          {content}
+        </TabsContent>
+        <TabsContent value="5" className="mt-8">
+          {content}
+        </TabsContent>
+      </Tabs>
+    </main>
   );
 }

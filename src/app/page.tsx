@@ -66,6 +66,25 @@ function formatTimeRange(startIso: string) {
   return `${fmt.format(start)} – ${fmt.format(end)}`;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Configurable highlight rules                                               */
+/* -------------------------------------------------------------------------- */
+const HIGHLIGHT_WEEKDAYS: number[] = [2, 6]; // 0-Sun … 6-Sat
+const EVENING_HOURS = new Set([19, 20, 21]); // 7-9 PM local
+
+/* -------------------------------------------------------------------------- */
+/* Helper predicates                                                          */
+/* -------------------------------------------------------------------------- */
+function isHighlightDay(dateIso: string) {
+  const day = new Date(dateIso).getDay();
+  return HIGHLIGHT_WEEKDAYS.includes(day);
+}
+
+function isEveningSlot(startIso: string) {
+  const d = new Date(startIso);
+  return EVENING_HOURS.has(d.getHours());
+}
+
 // -----------------------------------------------------------------------------
 // Main component
 // -----------------------------------------------------------------------------
@@ -147,35 +166,65 @@ export default function SlotsPage() {
             },
           }}
         >
-          {currentData.map(({ date, startTimes }) => (
-            <motion.div
-              key={date}
-              variants={{
-                hidden: { y: 20, opacity: 0 },
-                visible: { y: 0, opacity: 1 },
-              }}
-            >
-              <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
-                <CardHeader className="bg-primary/10">
-                  <CardTitle>{formatDateHeader(date)}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-wrap gap-2 py-4">
-                  {startTimes.length ? (
-                    startTimes.map((iso) => (
-                      <Badge key={iso} variant="secondary" className="gap-1">
-                        <Clock className="h-4 w-4" />
-                        {formatTimeRange(iso)}
-                      </Badge>
-                    ))
-                  ) : (
-                    <span className="text-muted-foreground text-sm">
-                      No slots
-                    </span>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {currentData.map(({ date, startTimes }) => {
+            const highlightCard = isHighlightDay(date);
+            return (
+              <motion.div
+                key={date}
+                variants={{
+                  hidden: { y: 20, opacity: 0 },
+                  visible: { y: 0, opacity: 1 },
+                }}
+              >
+                <Card
+                  className={`transition-shadow hover:shadow-xl ${
+                    highlightCard
+                      ? "border-2 border-green-600 dark:border-green-400" // weekday highlight
+                      : "border border-border/40"
+                  }`}
+                >
+                  <CardHeader className="bg-primary/10 flex items-center py-2 border-y-accent-foreground/5 border-y-[1px]">
+                    <CardTitle className="p-1">
+                      <span className={`text-gray-900 dark:text-green-400`}>
+                        {formatDateHeader(date)}
+                      </span>
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="flex flex-wrap gap-2 py-4">
+                    {startTimes.length ? (
+                      startTimes.map((iso) => {
+                        const evening = isEveningSlot(iso);
+
+                        /* --------------------------------------- */
+                        /* Evening badge styling                   */
+                        /* --------------------------------------- */
+                        const eveningClasses = evening
+                          ? "border border-green-600 text-green-700 " + // light
+                            "dark:border-green-400 dark:text-green-400" // dark
+                          : "";
+
+                        return (
+                          <Badge
+                            key={iso}
+                            variant="secondary"
+                            className={`gap-1 ${eveningClasses}`}
+                          >
+                            <Clock className="h-4 w-4" />
+                            {formatTimeRange(iso)}
+                          </Badge>
+                        );
+                      })
+                    ) : (
+                      <span className="text-muted-foreground text-sm">
+                        No slots
+                      </span>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     );
@@ -192,8 +241,8 @@ export default function SlotsPage() {
         className="w-full"
       >
         <TabsList className="mx-auto w-fit bg-primary/10">
-          <TabsTrigger value="6">6‑a‑side</TabsTrigger>
-          <TabsTrigger value="5">5‑a‑side</TabsTrigger>
+          <TabsTrigger value="6">6 V 6</TabsTrigger>
+          <TabsTrigger value="5">5 V 5</TabsTrigger>
         </TabsList>
         <TabsContent value="6" className="mt-8">
           {content}

@@ -2,7 +2,7 @@
 
 **Futsowl** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
 
-![JAFF Turf](public/turfs/jaff/jaff-cover.jpg)
+![JAFF Turf](public/turfs/jaff/jaff-cover.png)
 
 ## 🌟 Features
 

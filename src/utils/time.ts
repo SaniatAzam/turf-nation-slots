@@ -2,8 +2,12 @@
 export function toIso(date: string, range: string): string {
   const [startRaw] = range.split("-").map((s) => s.trim());
 
-  const [time, meridian] = startRaw.split(" ");
-  let [hh, mm] = time.split(":").map(Number);
+  const [time, meridianRaw] = startRaw.split(" ");
+  const meridian = meridianRaw.toUpperCase() as "AM" | "PM";
+
+  const [hhStr, mmStr] = time.split(":"); // both strings
+  let hh = Number(hhStr); // mutable
+  const mm = Number(mmStr); // immutable ✅
 
   if (Number.isNaN(hh) || Number.isNaN(mm)) {
     throw new Error(`Invalid time format: ${range}`);
@@ -15,11 +19,8 @@ export function toIso(date: string, range: string): string {
   const dt = new Date(date);
   dt.setHours(hh, mm, 0, 0);
 
-  // if slot is "12:30 AM" but we're attaching it to a date like "2025-06-24"
-  // then the actual ISO time will be before midnight — we want it to roll into next day
-  if (hh < 5) {
-    dt.setDate(dt.getDate() + 1);
-  }
+  // If the slot is after midnight but before 5 AM, roll to next day
+  if (hh < 5) dt.setDate(dt.getDate() + 1);
 
   return dt.toISOString();
 }

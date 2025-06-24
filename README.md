@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚽ Dhaka Turf Finder
 
-## Getting Started
+**Dhaka Turf Finder** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
 
-First, run the development server:
+![JAFF Turf](public/assets/turfs/jaff/jaff-cover.jpg)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Features
+
+- 🕐 **Real-time slot availability** for 5-a-side and 6-a-side football turfs.
+- 📆 **14-day forward view** with time-specific slot breakdowns.
+- 📱 **Mobile-friendly UI** with fast loading and smooth animations.
+- 📍 **Venue-specific pages** with cover image, logo, contact info, and links.
+- 💡 **Highlighted slots** on weekends and evening hours.
+- 🔍 Searchable and filterable architecture (coming soon).
+
+## 🛠️ Tech Stack
+
+- **Frontend**: [Next.js (App Router)](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/), [Lucide Icons](https://lucide.dev/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Data Fetching**: `axios`, `useSWR`
+- **Backend Proxy**: API routes in Next.js for interfacing with third-party form-based scrapers
+
+## 📂 Folder Structure (Frontend)
+
+```
+/app
+  └── turf
+      └── jaff
+/components
+  ├── TurfHeader.tsx
+  ├── DayCard.tsx
+  └── ...
+/public
+  └── assets
+      └── turfs
+          └── jaff
+              ├── jaff-cover.jpg
+              └── jaff-logo.png
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repo**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+git clone https://github.com/your-username/dhaka-turf-finder.git
+cd dhaka-turf-finder
+```
 
-## Learn More
+2. **Install dependencies**
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev
+```
 
-## Deploy on Vercel
+4. Open [http://localhost:3000](http://localhost:3000) to view in the browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📸 Screenshots
+
+### Desktop View
+![Desktop UI](public/assets/screenshots/desktop-jaff.png)
+
+### Mobile View
+![Mobile UI](public/assets/screenshots/mobile-jaff.png)
+
+---
+
+## 📞 Add Your Turf
+
+If you're a turf owner and want your venue featured on this platform, reach out to us at **dhakaturfapp@gmail.com**.
+
+---
+
+## 🧠 Future Plans
+
+- User login and booking
+- Admin dashboard for turf managers
+- Map-based navigation
+- Auto price comparisons
+
+---
+
+## 📄 License
+
+MIT License. Feel free to fork and contribute.
+
+---
+
+> Built with ❤️ in Dhaka.

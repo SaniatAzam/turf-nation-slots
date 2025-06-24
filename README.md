@@ -1,6 +1,6 @@
-# ⚽ Dhaka Turf Finder
+# ⚽ Futsowl
 
-**Dhaka Turf Finder** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
+**Futsowl** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
 
 ![JAFF Turf](public/assets/turfs/jaff/jaff-cover.jpg)
 
@@ -44,8 +44,8 @@
 1. **Clone the repo**
 
 ```bash
-git clone https://github.com/your-username/dhaka-turf-finder.git
-cd dhaka-turf-finder
+git clone https://github.com/your-username/turf-nation-slots.git
+cd turf-nation-slots
 ```
 
 2. **Install dependencies**
@@ -67,23 +67,24 @@ pnpm dev
 ## 📸 Screenshots
 
 ### Desktop View
+
 ![Desktop UI](public/assets/screenshots/desktop-jaff.png)
 
 ### Mobile View
+
 ![Mobile UI](public/assets/screenshots/mobile-jaff.png)
 
 ---
 
 ## 📞 Add Your Turf
 
-If you're a turf owner and want your venue featured on this platform, reach out to us at **dhakaturfapp@gmail.com**.
+If you're a turf owner and want your venue featured on this platform, reach out to us at **saniatsaadat@gmail.com**.
 
 ---
 
 ## 🧠 Future Plans
 
-- User login and booking
-- Admin dashboard for turf managers
+- User login
 - Map-based navigation
 - Auto price comparisons
 
@@ -95,4 +96,4 @@ MIT License. Feel free to fork and contribute.
 
 ---
 
-> Built with ❤️ in Dhaka.
+> Built with ❤️ in Dhaka. By Saniat Azam.

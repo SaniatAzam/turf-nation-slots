@@ -2,7 +2,7 @@
 
 **Futsowl** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
 
-![JAFF Turf](public/assets/turfs/jaff/jaff-cover.jpg)
+![JAFF Turf](public/turfs/jaff/jaff-cover.jpg)
 
 ## 🌟 Features
 
@@ -21,23 +21,7 @@
 - **Data Fetching**: `axios`, `useSWR`
 - **Backend Proxy**: API routes in Next.js for interfacing with third-party form-based scrapers
 
-## 📂 Folder Structure (Frontend)
-
-```
-/app
-  └── turf
-      └── jaff
-/components
-  ├── TurfHeader.tsx
-  ├── DayCard.tsx
-  └── ...
-/public
-  └── assets
-      └── turfs
-          └── jaff
-              ├── jaff-cover.jpg
-              └── jaff-logo.png
-```
+````
 
 ## 🚀 Getting Started
 
@@ -46,7 +30,7 @@
 ```bash
 git clone https://github.com/your-username/turf-nation-slots.git
 cd turf-nation-slots
-```
+````
 
 2. **Install dependencies**
 

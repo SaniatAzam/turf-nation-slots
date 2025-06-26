@@ -1,16 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
-// import { ThemeToggle } from "@/components/theme-toggler";
 import { DayCard } from "@/components/day-card";
 import { TurfHeader } from "@/components/turf-header";
-
+import { useTurfNationSlots } from "@/hooks/useTurfNationSlots";
+// import { toIso } from "@/utils/time";
 // -----------------------------------------------------------------------------
 // Types & helpers
 // -----------------------------------------------------------------------------
@@ -20,53 +17,42 @@ export interface SlotPayload {
   duration: number;
 }
 
-interface ApiSlotResponse {
-  // adjust these fields to match your actual backend response
-  date: string; // ISO date e.g. "2025-06-23T18:00:00.000Z"
-  startTimes: string[]; // e.g. ["07:00", "08:30", ...]a
-}
+// interface ApiSlotResponse {
+//   // adjust these fields to match your actual backend response
+//   date: string; // ISO date e.g. "2025-06-23T18:00:00.000Z"
+//   startTimes: string[]; // e.g. ["07:00", "08:30", ...]a
+// }
 
 const sixASideID = "6761946a992c39b4c667573a";
 const fiveASideID = "67619460992c39b4c6675735";
-const duration = 90;
+// const duration = 90;
 // local proxy endpoint created earlier
-const API_ENDPOINT = "/api/turf/available-slots";
+// const API_ENDPOINT = "/api/turf/available-slots";
 
-/** Generate ISO strings for today + the next `days-1` days at local midnight */
-function getNextIsoDates(days: number = 14) {
-  const out: string[] = [];
-  const base = new Date();
-  base.setHours(0, 0, 0, 0);
-  for (let i = 0; i < days; i++) {
-    const d = new Date(base);
-    d.setDate(base.getDate() + i);
-    out.push(d.toISOString());
-  }
-  return out;
-}
-
-function buildPayloads(arenaId: string, days = 14): SlotPayload[] {
-  return getNextIsoDates(days).map((date) => ({ arenaId, date, duration }));
-}
-
-// function formatDateHeader(iso: string) {
-//   return new Intl.DateTimeFormat("en-US", {
-//     weekday: "short",
-//     month: "short",
-//     day: "numeric",
-//   }).format(new Date(iso));
+// /** Generate ISO strings for today + the next `days-1` days at local midnight */
+// function getNextIsoDates(days: number = 14) {
+//   const out: string[] = [];
+//   const base = new Date();
+//   base.setHours(0, 0, 0, 0);
+//   for (let i = 0; i < days; i++) {
+//     const d = new Date(base);
+//     d.setDate(base.getDate() + i);
+//     out.push(d.toISOString());
+//   }
+//   return out;
 // }
 
-// function formatTimeRange(startIso: string) {
-//   const start = new Date(startIso);
-//   const end = new Date(start.getTime() + duration * 60_000);
-//   const fmt = new Intl.DateTimeFormat("en-US", {
-//     hour: "numeric",
-//     minute: "2-digit",
-//     hour12: true,
+// function buildPayloads(arenaId: string, days = 14): SlotPayload[] {
+//   return getNextIsoDates(days).map((date) => ({ arenaId, date, duration }));
+// }
+
+// /* Helpers */
+// const nextDates = (n = 14) =>
+//   Array.from({ length: n }, (_, i) => {
+//     const d = new Date();
+//     d.setDate(d.getDate() + i);
+//     return d.toISOString().slice(0, 10);
 //   });
-//   return `${fmt.format(start)} – ${fmt.format(end)}`;
-// }
 
 /* -------------------------------------------------------------------------- */
 /* Configurable highlight rules                                               */
@@ -91,55 +77,65 @@ function isEveningSlot(startIso: string) {
 // Main component
 // -----------------------------------------------------------------------------
 export default function SlotsPage() {
+  /* ------------- state for tab (6‑a‑side / 5‑a‑side) ------------- */
   const [tab, setTab] = useState<"6" | "5">("6");
-  const [data6, setData6] = useState<ApiSlotResponse[]>([]);
-  const [data5, setData5] = useState<ApiSlotResponse[]>([]);
+  const arenaId = tab === "6" ? sixASideID : fiveASideID;
+  const { data, isLoading } = useTurfNationSlots(arenaId);
+  console.log("Slots data:", data, "Loading:", isLoading);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  // const dates = nextDates(14);
+  // const queries = dates.map((date) =>
+  //   useGetSlotsQuery({ arenaId, date, duration })
+  // );
+
+  // const [data6, setData6] = useState<ApiSlotResponse[]>([]);
+  // const [data5, setData5] = useState<ApiSlotResponse[]>([]);
+
+  // const [loading, setLoading] = useState<boolean>(false);
 
   // fetch slots whenever tab changes and that dataset is empty
-  useEffect(() => {
-    async function fetchSlots(
-      arenaId: string,
-      setter: React.Dispatch<React.SetStateAction<ApiSlotResponse[]>>
-    ) {
-      setLoading(true);
-      try {
-        const payloads = buildPayloads(arenaId);
-        const results = await Promise.all(
-          payloads.map((p) => axios.post(API_ENDPOINT, p).then((r) => r.data))
-        );
-        // results: flat list ➜ group by date
-        const grouped: Record<string, string[]> = {};
-        results.forEach((times, i) => {
-          const payloadDate = payloads[i].date;
-          if (Array.isArray(times)) {
-            grouped[payloadDate] = times;
-          } else {
-            console.warn("Unexpected API response for", payloadDate, times);
-          }
-        });
+  // useEffect(() => {
+  //   async function fetchSlots(
+  //     arenaId: string,
+  //     setter: React.Dispatch<React.SetStateAction<ApiSlotResponse[]>>
+  //   ) {
+  //     setLoading(true);
+  //     try {
+  //       const payloads = buildPayloads(arenaId);
+  //       const results = await Promise.all(
+  //         payloads.map((p) => axios.post(API_ENDPOINT, p).then((r) => r.data))
+  //       );
+  //       // results: flat list ➜ group by date
+  //       const grouped: Record<string, string[]> = {};
+  //       results.forEach((times, i) => {
+  //         const payloadDate = payloads[i].date;
+  //         if (Array.isArray(times)) {
+  //           grouped[payloadDate] = times;
+  //         } else {
+  //           console.warn("Unexpected API response for", payloadDate, times);
+  //         }
+  //       });
 
-        const array: ApiSlotResponse[] = Object.entries(grouped).map(
-          ([date, startTimes]) => ({ date, startTimes })
-        );
-        setter(array);
-      } catch (err) {
-        console.error("slot fetch error", err);
-      } finally {
-        setLoading(false);
-      }
-    }
+  //       const array: ApiSlotResponse[] = Object.entries(grouped).map(
+  //         ([date, startTimes]) => ({ date, startTimes })
+  //       );
+  //       setter(array);
+  //     } catch (err) {
+  //       console.error("slot fetch error", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    if (tab === "6" && data6.length === 0) fetchSlots(sixASideID, setData6);
-    if (tab === "5" && data5.length === 0) fetchSlots(fiveASideID, setData5);
-  }, [tab, data6.length, data5.length]);
+  //   if (tab === "6" && data6.length === 0) fetchSlots(sixASideID, setData6);
+  //   if (tab === "5" && data5.length === 0) fetchSlots(fiveASideID, setData5);
+  // }, [tab, data6.length, data5.length]);
 
-  const currentData = tab === "6" ? data6 : data5;
+  // const currentData = tab === "6" ? data6 : data5;
 
   // Tooltip-like message if no data yet
   const content = useMemo(() => {
-    if (loading && currentData.length === 0) {
+    if (isLoading && data.length === 0) {
       return (
         <div className="flex flex-col items-center gap-2 py-24">
           <Loader2 className="animate-spin text-primary" />
@@ -147,7 +143,7 @@ export default function SlotsPage() {
         </div>
       );
     }
-    if (currentData.length === 0) {
+    if (data.length === 0) {
       return (
         <p className="text-center text-muted-foreground py-24">
           No slots available.
@@ -169,22 +165,19 @@ export default function SlotsPage() {
             },
           }}
         >
-          {currentData.map(({ date, startTimes }) => {
-            const highlightCard = isHighlightDay(date);
-            return (
-              <DayCard
-                key={date}
-                date={date}
-                startTimes={startTimes}
-                highlight={highlightCard}
-                isSpecialSlot={(iso) => isEveningSlot(iso)}
-              />
-            );
-          })}
+          {data.map(({ date, startTimes }) => (
+            <DayCard
+              key={date}
+              date={date}
+              startTimes={startTimes}
+              highlight={isHighlightDay(date)}
+              isSpecialSlot={isEveningSlot}
+            />
+          ))}
         </motion.div>
       </div>
     );
-  }, [currentData, loading]);
+  }, [data, isLoading]);
 
   return (
     <div className="w-[100vw] flex flex-col justify-center items-center lg:px-16">

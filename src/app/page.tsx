@@ -9,7 +9,7 @@ export default function LandingPage() {
     <main className="flex flex-col w-screen h-screen overflow-x-hidden overflow-y-hidden">
       {/* Hero Section */}
       <section
-        className="flex flex-1 items-center justify-center text-center"
+        className="flex flex-1 items-center justify-center text-center px-8"
         style={{
           background:
             "radial-gradient(at 14% 89%, #05df72 0px, transparent 50%), radial-gradient(at 83% 38%, #05df72 0px, transparent 50%), radial-gradient(at 74.52586190453891% 100%, #40acaf 0px, transparent 50%), #000",

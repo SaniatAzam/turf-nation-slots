@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function LandingPage() {
   return (
@@ -19,17 +20,29 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl text-white"
+          className="max-w-3xl flex flex-col lg:flex-row gap-16 text-white items-center justify-center lg-justify-between lg:items-start lg:text-left mx-auto"
         >
-          <h1 className="text-5xl sm:text-5xl font-bold tracking-tight mb-4 ">
-            Futsowl Bangladesh
-          </h1>
-          <p className="text-lg sm:text-xl text-white/80 mb-6">
-            Find the next futsal spot across Dhaka
-          </p>
-          <Button asChild className="text-base px-6 py-4 rounded-full">
-            <Link href="/turf/turf-nation">Explore Slots</Link>
-          </Button>
+          <Image
+            src="/icon-dark.png"
+            alt="Futsowl Bangladesh Logo"
+            width={300}
+            height={300}
+            className="-mt-10"
+          />
+          <div className="w-full">
+            <h1 className="text-5xl sm:text-5xl mb-4 font-[var(--font-gothic)] font-bold tracking-wide ">
+              Futsowl Bangladesh
+            </h1>
+            <p className="text-lg sm:text-xl text-white/80 mb-6">
+              Find the next futsal spot across Dhaka
+            </p>
+            <Button
+              asChild
+              className="text-base px-6 py-4 rounded-full w-[100%] text-white bg-gradient-to-r from-[#05df72] to-[#40acaf] hover:from-[#05df72]/90 hover:to-[#40acaf]/90 hover:shadow-lg transition-all duration-300"
+            >
+              <Link href="/turf/turf-nation">Explore Slots</Link>
+            </Button>
+          </div>
         </motion.div>
       </section>
     </main>

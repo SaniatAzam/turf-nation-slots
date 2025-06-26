@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { DayCard } from "@/components/day-card";
 import { TurfHeader } from "@/components/turf-header";
 import { useTurfNationSlots } from "@/hooks/useTurfNationSlots";
-// import { toIso } from "@/utils/time";
+
 // -----------------------------------------------------------------------------
 // Types & helpers
 // -----------------------------------------------------------------------------
@@ -17,42 +17,8 @@ export interface SlotPayload {
   duration: number;
 }
 
-// interface ApiSlotResponse {
-//   // adjust these fields to match your actual backend response
-//   date: string; // ISO date e.g. "2025-06-23T18:00:00.000Z"
-//   startTimes: string[]; // e.g. ["07:00", "08:30", ...]a
-// }
-
 const sixASideID = "6761946a992c39b4c667573a";
 const fiveASideID = "67619460992c39b4c6675735";
-// const duration = 90;
-// local proxy endpoint created earlier
-// const API_ENDPOINT = "/api/turf/available-slots";
-
-// /** Generate ISO strings for today + the next `days-1` days at local midnight */
-// function getNextIsoDates(days: number = 14) {
-//   const out: string[] = [];
-//   const base = new Date();
-//   base.setHours(0, 0, 0, 0);
-//   for (let i = 0; i < days; i++) {
-//     const d = new Date(base);
-//     d.setDate(base.getDate() + i);
-//     out.push(d.toISOString());
-//   }
-//   return out;
-// }
-
-// function buildPayloads(arenaId: string, days = 14): SlotPayload[] {
-//   return getNextIsoDates(days).map((date) => ({ arenaId, date, duration }));
-// }
-
-// /* Helpers */
-// const nextDates = (n = 14) =>
-//   Array.from({ length: n }, (_, i) => {
-//     const d = new Date();
-//     d.setDate(d.getDate() + i);
-//     return d.toISOString().slice(0, 10);
-//   });
 
 /* -------------------------------------------------------------------------- */
 /* Configurable highlight rules                                               */

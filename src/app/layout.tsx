@@ -27,12 +27,32 @@ const gothic = Oswald({
 export const metadata: Metadata = {
   title: "Futsowl Bangladesh",
   description: "Check Available Slots for Futsal Arenas in Dhaka",
-  icons: {
-    icon: [
-      { url: "/icon-light.png", media: "(prefers-color-scheme: light)" },
-      { url: "/icon-dark.png", media: "(prefers-color-scheme: dark)" },
+  metadataBase: new URL("https://futsowl.vercel.app"),
+  openGraph: {
+    title: "Futsowl Bangladesh",
+    description: "Check Available Slots for Futsal Arenas in Dhaka",
+    url: "https://futsowl.vercel.app",
+    siteName: "Futsowl Bangladesh",
+    images: [
+      {
+        url: "/cover.png",
+        width: 1200,
+        height: 630,
+        alt: "Futsowl Arena Booking",
+      },
     ],
-    apple: { url: "/apple-icon.png" },
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Futsowl Bangladesh",
+    description: "Check Available Slots for Futsal Arenas in Dhaka",
+    images: ["/cover.png"],
+  },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 

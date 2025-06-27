@@ -80,7 +80,7 @@ export function DayCard({
                 <Badge
                   key={iso}
                   variant="secondary"
-                  className={`gap-1 ${badgeClass}`}
+                  className={`gap-1 ${badgeClass} hover:scale-105 transition-transform duration-200 hover:bg-[-var(--primary)]`}
                 >
                   <Clock className="h-4 w-4" />
                   {fmtTime(iso)}

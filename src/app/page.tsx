@@ -34,7 +34,7 @@ export default function LandingPage() {
               Futsowl Bangladesh
             </h1>
             <p className="text-lg sm:text-xl text-white/80 mb-6">
-              Find the next futsal spot across Dhaka
+              Find the next futsal spot in Dhaka
             </p>
             <Button
               asChild

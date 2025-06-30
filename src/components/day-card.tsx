@@ -56,7 +56,7 @@ export function DayCard({
       <Card className={`transition-shadow hover:shadow-xl ${borderClass}`}>
         <CardHeader className="py-2 flex flex-col gap-0">
           {/* Date Header */}
-          <CardTitle>
+          <CardTitle className="">
             <span className={dateHeaderClass}>
               {new Intl.DateTimeFormat("en-US", {
                 weekday: "short",
@@ -66,7 +66,7 @@ export function DayCard({
             </span>
           </CardTitle>
           {/* Weather Section */}
-          <div className="w-full flex items-center gap-3 mt-1 mb-0.5 justify-between bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 rounded-md shadow-sm">
+          <div className="w-full flex items-center gap-3 mt-1 mb-0.5 justify-between bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 rounded-md shadow-inner">
             {weatherLoading && (
               <span className="text-xs text-muted-foreground">
                 Loading weather…
@@ -105,7 +105,7 @@ export function DayCard({
                   initial={{ scale: 0.8, rotate: -10, opacity: 0 }}
                   animate={{ scale: 1, rotate: 0, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 16 }}
-                  className={`rounded-full bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 shadow-sm flex items-center justify-center`}
+                  className={`rounded-full bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2  flex items-center justify-center`}
                 >
                   {(() => {
                     const Icon = Lucide[weather.icon] ?? Lucide.HelpCircle;

@@ -121,7 +121,7 @@ export function DayCard({
           </div>
         </CardHeader>
 
-        <CardContent className="flex flex-wrap gap-2 py-4">
+        <CardContent className="flex flex-wrap gap-2 py-2">
           {startTimes.length ? (
             startTimes.map((iso) => {
               const special = isSpecialSlot(iso);

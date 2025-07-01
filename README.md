@@ -1,6 +1,6 @@
 # ⚽ Futsowl
 
-**Futsowl** is a web platform that allows users to view and book available football turf slots across various venues in Dhaka, Bangladesh. It aggregates real-time data from third-party turf providers and displays it in a clean, responsive interface built with modern web technologies.
+**Futsowl** is a web platform that lets you check and book turf availability at select venues in Dhaka, Bangladesh. It aggregates slot data from providers like Turf Nation and JAFF and presents everything in a clean, responsive interface built with modern web technologies.
 
 ![JAFF Turf](public/turfs/jaff/jaff-cover.png)
 
@@ -18,10 +18,10 @@
 - **Frontend**: [Next.js (App Router)](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/), [Lucide Icons](https://lucide.dev/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Data Fetching**: `axios`, `useSWR`
+- **Data Fetching**: [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview) with `fetch` and `axios` scrapers
 - **Backend Proxy**: API routes in Next.js for interfacing with third-party form-based scrapers
+- **Weather Data**: [Open-Meteo](https://open-meteo.com/) forecast API
 
-````
 
 ## 🚀 Getting Started
 
@@ -30,7 +30,7 @@
 ```bash
 git clone https://github.com/your-username/turf-nation-slots.git
 cd turf-nation-slots
-````
+```
 
 2. **Install dependencies**
 
@@ -48,15 +48,9 @@ pnpm dev
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshot
 
-### Desktop View
-
-![Desktop UI](public/assets/screenshots/desktop-jaff.png)
-
-### Mobile View
-
-![Mobile UI](public/assets/screenshots/mobile-jaff.png)
+![Futsowl interface](public/cover.png)
 
 ---
 

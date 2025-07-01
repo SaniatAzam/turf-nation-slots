@@ -1,6 +1,6 @@
 #  Futsowl
 
-**Futsowl** is a web platform that lets you check and book turf availability at select venues in Dhaka, Bangladesh. It aggregates slot data from providers like Turf Nation and JAFF and presents everything in a clean, responsive interface built with modern web technologies.
+**Futsowl** is a web platform that lets you check turf availability at select venues in Dhaka, Bangladesh. It aggregates slot data from providers like Turf Nation and JAFF and presents everything in a clean, responsive interface built with modern web technologies.
 
 
 ![Futsowl interface](public/cover.png)

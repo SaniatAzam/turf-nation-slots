@@ -1,4 +1,4 @@
-# ⚽ Futsowl
+#  Futsowl
 
 **Futsowl** is a web platform that lets you check and book turf availability at select venues in Dhaka, Bangladesh. It aggregates slot data from providers like Turf Nation and JAFF and presents everything in a clean, responsive interface built with modern web technologies.
 
@@ -7,7 +7,7 @@
 
 ---
 
-## 🌟 Features
+##  Features
 
 - 🕐 **Real-time slot availability** for 5-a-side and 6-a-side football turfs.
 - 📆 **14-day forward view** with time-specific slot breakdowns.
@@ -16,7 +16,7 @@
 - 💡 **Highlighted slots** on weekends and evening hours.
 - 🔍 Searchable and filterable architecture (coming soon).
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Frontend**: [Next.js (App Router)](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/), [Lucide Icons](https://lucide.dev/)
@@ -26,7 +26,7 @@
 - **Weather Data**: [Open-Meteo](https://open-meteo.com/) forecast API
 
 
-## 🚀 Getting Started
+## Getting Started
 
 1. **Clone the repo**
 
@@ -58,7 +58,7 @@ If you're a turf owner and want your venue featured on this platform, reach out 
 
 ---
 
-## 🧠 Future Plans
+## Future Plans
 
 - User login
 - Map-based navigation

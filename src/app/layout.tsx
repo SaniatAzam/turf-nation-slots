@@ -6,6 +6,7 @@ import { NavBar } from "@/components/navbar";
 import { ReduxProvider } from "@/components/redux-provider";
 import { ThemeWrapper } from "@/components/theme-wrapper";
 import { Footer } from "@/components/footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,7 +72,10 @@ export default function RootLayout({
           <ThemeWrapper>
             <NavBar />
             <div className="pt-16 flex flex-col">
-              <div>{children}</div>
+              <div>
+                {children} <Analytics />
+              </div>
+
               <Footer />
             </div>
           </ThemeWrapper>

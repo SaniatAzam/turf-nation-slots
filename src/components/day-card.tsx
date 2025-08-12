@@ -19,6 +19,7 @@ export interface DayCardProps {
   highlightDark?: string;
   primaryColor?: string; // Tailwind color, e.g. "green-400"
   isSpecialSlot?: (iso: string) => boolean;
+  turf?: string;
 }
 
 const DEFAULT_EVENING = (iso: string) =>
@@ -32,6 +33,7 @@ export function DayCard({
   highlightDark = " dark:border-green-400 dark:text-green-400",
   primaryColor = "green-400", // default fallback
   isSpecialSlot = DEFAULT_EVENING,
+  turf,
 }: DayCardProps) {
   const {
     data: weatherByDate,
@@ -46,6 +48,9 @@ export function DayCard({
   const textPrimary = `text-${primaryColor}`;
   const iconPrimary = `text-${primaryColor} dark:text-${primaryColor}`;
   const dateHeaderClass = `text-xl md:text-xl font-semibold ${textPrimary} dark:${textPrimary}`;
+  const turfBorderClass = `border-foreground/10 border-1`;
+  const topPostClass = `flex justify-center items-center rounded-b-xl h-fit border-1 py-2 ${turfBorderClass} text-${primaryColor} text-center -mt-[25px] w-[50%] mx-auto tracking-widest font-medium`;
+  // const bottomPostClass = `flex justify-center items-center rounded-t-xl h-10 border-1 py-2 ${turfBorderClass} text-${primaryColor} text-center -mb-[32px] w-[50%] mx-auto tracking-widest font-medium`;
 
   // borderClass uses the highlight color props
   const borderClass = highlight
@@ -54,10 +59,11 @@ export function DayCard({
 
   return (
     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-      <Card className={`transition-shadow hover:shadow-xl ${borderClass}`}>
+      <Card className={`flex transition-shadow hover:shadow-xl ${borderClass}`}>
+        <div className={`${topPostClass}`}>{turf}</div>
         <CardHeader className="py-2 flex flex-col gap-0">
           {/* Date Header */}
-          <CardTitle className="">
+          <CardTitle className="flex flex-row">
             <span className={dateHeaderClass}>
               {new Intl.DateTimeFormat("en-US", {
                 weekday: "short",

@@ -60,6 +60,7 @@ export default function DBoxSlotsPage() {
             highlightDark="dark:border-purple-500 dark:text-purple-400"
             primaryColor="purple-500"
             isSpecialSlot={isEvening}
+            turf="DBOX-JFP"
           />
         ))}
       </motion.div>

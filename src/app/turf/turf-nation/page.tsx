@@ -138,6 +138,7 @@ export default function SlotsPage() {
               startTimes={startTimes}
               highlight={isHighlightDay(date)}
               isSpecialSlot={isEveningSlot}
+              turf="TURF NATION"
             />
           ))}
         </motion.div>

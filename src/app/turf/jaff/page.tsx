@@ -60,6 +60,7 @@ export default function JaffSlotsPage() {
             highlightDark="dark:border-sky-400 dark:text-sky-400"
             primaryColor="sky-400"
             isSpecialSlot={isEvening}
+            turf="JAFF"
           />
         ))}
       </motion.div>

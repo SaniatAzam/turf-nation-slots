@@ -40,19 +40,15 @@ export function DayCard({
     isLoading: weatherLoading,
     error: weatherError,
   } = useGetDhakaForecastQuery();
-  const weather = weatherByDate?.[date.slice(0, 10)]; // Extract date in YYYY-MM-DD format
+  const weather = weatherByDate?.[date.slice(0, 10)]; // Extract date in YYYY-MM-DD
 
-  console.log(" DATE DATE DATE " + date);
-
-  // Dynamically create Tailwind classes using primaryColor
+  // Primary color hooks
   const textPrimary = `text-${primaryColor}`;
   const iconPrimary = `text-${primaryColor} dark:text-${primaryColor}`;
   const dateHeaderClass = `text-xl md:text-xl font-semibold ${textPrimary} dark:${textPrimary}`;
   const turfBorderClass = `border-foreground/10 border-1`;
   const topPostClass = `flex justify-center items-center rounded-b-xl h-fit border-1 py-2 ${turfBorderClass} text-${primaryColor} text-center -mt-[25px] w-[50%] mx-auto tracking-widest font-medium`;
-  // const bottomPostClass = `flex justify-center items-center rounded-t-xl h-10 border-1 py-2 ${turfBorderClass} text-${primaryColor} text-center -mb-[32px] w-[50%] mx-auto tracking-widest font-medium`;
 
-  // borderClass uses the highlight color props
   const borderClass = highlight
     ? `border-2 ${highlightLight} ${highlightDark}`
     : "border border-border/40";
@@ -61,75 +57,68 @@ export function DayCard({
     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
       <Card className={`flex transition-shadow hover:shadow-xl ${borderClass}`}>
         <div className={`${topPostClass}`}>{turf}</div>
-        <CardHeader className="py-2 flex flex-col gap-0">
-          {/* Date Header */}
-          <CardTitle className="flex flex-row">
-            <span className={dateHeaderClass}>
-              {new Intl.DateTimeFormat("en-US", {
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-              }).format(new Date(date))}
-            </span>
-          </CardTitle>
-          {/* Weather Section */}
-          <div className="w-full flex items-center gap-3 mt-2 mb-0 justify-between bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 rounded-md shadow-inner">
-            {weatherLoading && (
-              <span className="text-xs text-muted-foreground">
-                Loading weather…
+
+        {/* Header: Date on the left, compact weather pill on the right */}
+        <CardHeader className="py-2">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            {/* Date (primary) */}
+            <CardTitle className="flex-1 min-w-0">
+              <span className={dateHeaderClass}>
+                {new Intl.DateTimeFormat("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                }).format(new Date(date))}
               </span>
-            )}
-            {weatherError && (
-              <span className="text-xs text-red-500">Weather unavailable</span>
-            )}
-            {!weatherLoading && !weatherError && !weather && (
-              <span className="text-xs text-muted-foreground">
-                No weather data
-              </span>
-            )}
-            {weather && (
-              <>
-                <div className="flex flex-col leading-tight">
-                  <span
-                    className={`text-base md:text-lg font-medium ${textPrimary} dark:${textPrimary}`}
-                  >
-                    {weather.condition}
-                  </span>
-                  <span className="text-sm text-muted-foreground flex gap-3">
-                    <span>
-                      <span className="font-semibold">
-                        {Math.round(weather.temp)}°C
-                      </span>{" "}
-                      avg
-                    </span>
-                    <span>
-                      <span className="font-semibold">{weather.precip}%</span>{" "}
-                      rain
-                    </span>
-                  </span>
-                </div>
+            </CardTitle>
+
+            {/* Weather (supplementary) */}
+            <div className="shrink-0">
+              {weatherLoading && (
+                <span className="inline-flex items-center rounded-lg border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] text-muted-foreground shadow-sm backdrop-blur">
+                  Loading…
+                </span>
+              )}
+
+              {weatherError && (
+                <span className="inline-flex items-center rounded-lg border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] text-muted-foreground shadow-sm backdrop-blur">
+                  Weather unavailable
+                </span>
+              )}
+
+              {!weatherLoading && !weatherError && !weather && (
+                <span className="inline-flex items-center rounded-lg border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] text-muted-foreground shadow-sm backdrop-blur">
+                  No weather
+                </span>
+              )}
+
+              {weather && (
                 <motion.div
-                  initial={{ scale: 0.8, rotate: -10, opacity: 0 }}
-                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 16 }}
-                  className={`rounded-full bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2  flex items-center justify-center`}
+                  initial={{ opacity: 0, y: -2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="inline-flex items-center gap-2 rounded-lg border border-border/60 bg-background/70 px-2.5 py-1 text-[12px] text-muted-foreground shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60"
+                  title={`${weather.condition} • ${Math.round(
+                    weather.temp
+                  )}°C avg • ${weather.precip}% rain`}
                 >
                   {(() => {
                     const Icon = Lucide[weather.icon] ?? Lucide.HelpCircle;
                     return (
-                      <Icon
-                        className={`w-8 h-8 md:w-10 md:h-10 ${iconPrimary}`}
-                      />
+                      <Icon className={`h-4 w-4 ${iconPrimary}`} aria-hidden />
                     );
                   })()}
+                  <span className="whitespace-nowrap">
+                    {Math.round(weather.temp)}°C • {weather.precip}%
+                  </span>
                 </motion.div>
-              </>
-            )}
+              )}
+            </div>
           </div>
         </CardHeader>
 
         <Separator className="h-[1px] bg-foreground/10 rounded-full" />
 
+        {/* Slot times (unchanged) */}
         <CardContent className="flex flex-wrap gap-2 pb-2">
           {startTimes.length ? (
             startTimes.map((iso) => {

@@ -147,7 +147,7 @@ export default function SlotsPage() {
   }, [data, isLoading]);
 
   return (
-    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-10">
+    <div className="w-[100vw] flex flex-col justify-center items-center">
       <TurfHeader
         coverSrc="/turfs/turf-nation/tn-cover.png"
         logoSrc="/turfs/turf-nation/tn-logo.svg"
@@ -155,7 +155,7 @@ export default function SlotsPage() {
         website="https://www.turfnationbd.com/booking"
         contactNumber="+8801814460000"
       />
-      <main className="flex flex-col justify-center py-10 max-w-6xl space-y-8 px-10">
+      <main className="flex flex-col justify-center py-10 max-w-6xl px-4 space-y-8 lg:px-10">
         {/* <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div> */}

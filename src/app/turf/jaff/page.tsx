@@ -68,7 +68,7 @@ export default function JaffSlotsPage() {
   }, [data, isLoading, isError]);
 
   return (
-    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-10">
+    <div className="w-[100vw] flex flex-col justify-center items-center">
       <TurfHeader
         coverSrc="/turfs/jaff/jaff-cover.png"
         logoSrc="/turfs/jaff/jaff-logo.png"
@@ -76,7 +76,7 @@ export default function JaffSlotsPage() {
         website="https://www.jaff.com.bd/venue/jaff"
         contactNumber="+8801304229158"
       />
-      <main className="flex flex-col py-10 max-w-6xl space-y-8 px-10">
+      <main className="flex flex-col py-10 max-w-6xl space-y-8 lg:px-10 px-4">
         {content}
       </main>
     </div>

@@ -67,7 +67,7 @@ export default function JaffSlotsPage() {
   }, [data, isLoading, isError]);
 
   return (
-    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-16">
+    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-10">
       <TurfHeader
         coverSrc="/turfs/jaff/jaff-cover.png"
         logoSrc="/turfs/jaff/jaff-logo.png"

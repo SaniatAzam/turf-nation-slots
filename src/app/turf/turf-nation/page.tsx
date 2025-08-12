@@ -146,7 +146,7 @@ export default function SlotsPage() {
   }, [data, isLoading]);
 
   return (
-    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-16">
+    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-10">
       <TurfHeader
         coverSrc="/turfs/turf-nation/tn-cover.png"
         logoSrc="/turfs/turf-nation/tn-logo.svg"

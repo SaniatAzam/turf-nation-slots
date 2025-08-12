@@ -6,6 +6,7 @@ import { Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { useGetDhakaForecastQuery } from "@/lib/store/weatherApi";
 import * as Lucide from "lucide-react";
+import { Separator } from "@radix-ui/react-separator";
 
 /* ------------------------------------------------------------------ */
 /* Props                                                               */
@@ -44,7 +45,7 @@ export function DayCard({
   // Dynamically create Tailwind classes using primaryColor
   const textPrimary = `text-${primaryColor}`;
   const iconPrimary = `text-${primaryColor} dark:text-${primaryColor}`;
-  const dateHeaderClass = `text-lg md:text-xl font-semibold ${textPrimary} dark:${textPrimary}`;
+  const dateHeaderClass = `text-xl md:text-xl font-semibold ${textPrimary} dark:${textPrimary}`;
 
   // borderClass uses the highlight color props
   const borderClass = highlight
@@ -66,7 +67,7 @@ export function DayCard({
             </span>
           </CardTitle>
           {/* Weather Section */}
-          <div className="w-full flex items-center gap-3 mt-1 mb-0.5 justify-between bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 rounded-md shadow-inner">
+          <div className="w-full flex items-center gap-3 mt-2 mb-0 justify-between bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] p-2 rounded-md shadow-inner">
             {weatherLoading && (
               <span className="text-xs text-muted-foreground">
                 Loading weather…
@@ -121,7 +122,9 @@ export function DayCard({
           </div>
         </CardHeader>
 
-        <CardContent className="flex flex-wrap gap-2 py-2">
+        <Separator className="h-[1px] bg-foreground/10 rounded-full" />
+
+        <CardContent className="flex flex-wrap gap-2 pb-2">
           {startTimes.length ? (
             startTimes.map((iso) => {
               const special = isSpecialSlot(iso);
@@ -132,9 +135,9 @@ export function DayCard({
                 <Badge
                   key={iso}
                   variant="secondary"
-                  className={`gap-1 ${badgeClass} hover:scale-105 transition-transform duration-200 hover:bg-[-var(--primary)]`}
+                  className={`gap-1 ${badgeClass} hover:scale-105 transition-transform duration-200 hover:bg-[-var(--primary)] text-md md:text-xs`}
                 >
-                  <Clock className="h-4 w-4" />
+                  <Clock className="h-4 w-4 " />
                   {(() => {
                     const start = new Date(iso);
                     const end = new Date(start.getTime() + 90 * 60_000);

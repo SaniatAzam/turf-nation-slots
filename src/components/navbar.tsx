@@ -18,9 +18,30 @@ import Image from "next/image";
 /* Turf links                                                         */
 /* ------------------------------------------------------------------ */
 const TURFS = [
-  { id: "turf-nation", label: "Turf Nation", href: "/turf/turf-nation" },
-  { id: "jaff", label: "JAFF", href: "/turf/jaff" },
-  { id: "dbox-rooftop", label: "DBOX Rooftop", href: "/turf/dbox-rooftop" },
+  {
+    id: "turf-nation",
+    label: "Turf Nation",
+    href: "/turf/turf-nation",
+    color: "green-400",
+    subColor: "bg-green-400/10",
+    hoverClass: "hover:bg-green-400/10 hover:text-green-400/75",
+  },
+  {
+    id: "jaff",
+    label: "JAFF",
+    href: "/turf/jaff",
+    color: "sky-400",
+    subColor: "bg-sky-400/10",
+    hoverClass: "hover:bg-sky-400/10 hover:text-sky-400/75",
+  },
+  {
+    id: "dbox-rooftop",
+    label: "DBOX Rooftop",
+    href: "/turf/dbox-rooftop",
+    color: "purple-500",
+    subColor: "bg-purple-500/10",
+    hoverClass: "hover:bg-purple-500/10 hover:text-purple-500/75",
+  },
 ];
 
 /* small helper to join classNames */
@@ -56,17 +77,17 @@ export function NavBar() {
         <nav className="hidden md:block">
           <NavigationMenu>
             <NavigationMenuList className="gap-4">
-              {TURFS.map(({ id, label, href }) => {
+              {TURFS.map(({ id, label, href, color, hoverClass }) => {
                 const active = pathname.startsWith(href);
                 return (
                   <NavigationMenuItem key={id}>
                     <Link
                       href={href}
                       className={cx(
-                        "text-sm font-medium transition-colors",
+                        "text-sm font-medium transition-colors duration-200  px-2 py-1 rounded",
                         active
-                          ? "text-green-400 dark:text-green-300"
-                          : "hover:text-primary text-muted-foreground"
+                          ? `text-${color} dark:text-${color}`
+                          : `${hoverClass} text-muted-foreground`
                       )}
                     >
                       {label}
@@ -92,24 +113,26 @@ export function NavBar() {
 
             <SheetContent side="right" className="w-64 pt-10">
               <nav className="space-y-5 px-6">
-                {TURFS.map(({ id, label, href }) => {
-                  const active = pathname.startsWith(href);
-                  return (
-                    <Button
-                      key={id}
-                      variant="ghost"
-                      className={cx(
-                        "w-full justify-start text-lg font-semibold py-3 transition-colors",
-                        active
-                          ? "bg-green-400/20 text-primary"
-                          : "hover:bg-green-400/40 hover:text-primary"
-                      )}
-                      onClick={() => router.push(href)}
-                    >
-                      {label}
-                    </Button>
-                  );
-                })}
+                {TURFS.map(
+                  ({ id, label, href, color, hoverClass, subColor }) => {
+                    const active = pathname.startsWith(href);
+                    return (
+                      <Button
+                        key={id}
+                        variant="ghost"
+                        className={cx(
+                          "w-full justify-start text-lg font-semibold py-3 transition-colors",
+                          active
+                            ? `${subColor} text-${color}`
+                            : `${hoverClass} hover:text-primary`
+                        )}
+                        onClick={() => router.push(href)}
+                      >
+                        {label}
+                      </Button>
+                    );
+                  }
+                )}
               </nav>
             </SheetContent>
           </Sheet>

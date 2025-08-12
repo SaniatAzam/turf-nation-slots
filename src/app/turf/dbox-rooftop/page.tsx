@@ -57,8 +57,8 @@ export default function DBoxSlotsPage() {
             startTimes={startTimes} // already ISO strings
             highlight={isSaturday(date)}
             highlightLight="border-purple-500 text-purple-500"
-            highlightDark="dark:border-purple-400 dark:text-purple-400"
-            primaryColor="purple-400"
+            highlightDark="dark:border-purple-500 dark:text-purple-400"
+            primaryColor="purple-500"
             isSpecialSlot={isEvening}
           />
         ))}
@@ -67,7 +67,7 @@ export default function DBoxSlotsPage() {
   }, [data, isLoading, isError]);
 
   return (
-    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-16">
+    <div className="w-[100vw] flex flex-col justify-center items-center lg:px-10">
       <TurfHeader
         coverSrc="/turfs/dbox-rooftop/dbox-rooftop-cover.jpg"
         logoSrc="/turfs/dbox-rooftop/dbox-rooftop-logo.jpg"
@@ -75,7 +75,7 @@ export default function DBoxSlotsPage() {
         website="https://booking.squarefeet.xyz/booking/dbox-jfp-rooftop-futsal-ground"
         contactNumber="+8801918973999"
       />
-      <main className="flex flex-col py-10 max-w-6xl space-y-8 px-10">
+      <main className="flex flex-col py-10 max-w-7xl space-y-8 px-8 lg:px-0 w-full">
         {content}
       </main>
     </div>

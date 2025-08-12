@@ -1,7 +1,6 @@
-// hooks/useJaffSlots.ts
 "use client";
 
-import { useGetJaffDayQuery } from "@/lib/store/turfApi";
+import { useGetDboxRooftopDayQuery } from "@/lib/store/turfApi";
 
 const DAYS = 15;
 
@@ -20,25 +19,25 @@ interface CardData {
   startTimes: string[];
 }
 
-export function useJaffSlots() {
+export function useDboxRooftopSlots() {
   const dates = nextDates();
 
   /* 14 top‑level calls – complies with rules‑of‑hooks */
   const queries = [
-    // useGetJaffDayQuery(dates[0]),
-    useGetJaffDayQuery(dates[1]),
-    useGetJaffDayQuery(dates[2]),
-    useGetJaffDayQuery(dates[3]),
-    useGetJaffDayQuery(dates[4]),
-    useGetJaffDayQuery(dates[5]),
-    useGetJaffDayQuery(dates[6]),
-    useGetJaffDayQuery(dates[7]),
-    useGetJaffDayQuery(dates[8]),
-    useGetJaffDayQuery(dates[9]),
-    useGetJaffDayQuery(dates[10]),
-    useGetJaffDayQuery(dates[11]),
-    useGetJaffDayQuery(dates[12]),
-    useGetJaffDayQuery(dates[13]),
+    // useGetDboxRooftopDayQuery(dates[0]),
+    useGetDboxRooftopDayQuery(dates[1]),
+    useGetDboxRooftopDayQuery(dates[2]),
+    useGetDboxRooftopDayQuery(dates[3]),
+    useGetDboxRooftopDayQuery(dates[4]),
+    useGetDboxRooftopDayQuery(dates[5]),
+    useGetDboxRooftopDayQuery(dates[6]),
+    useGetDboxRooftopDayQuery(dates[7]),
+    useGetDboxRooftopDayQuery(dates[8]),
+    useGetDboxRooftopDayQuery(dates[9]),
+    useGetDboxRooftopDayQuery(dates[10]),
+    useGetDboxRooftopDayQuery(dates[11]),
+    useGetDboxRooftopDayQuery(dates[12]),
+    useGetDboxRooftopDayQuery(dates[13]),
   ];
 
   const isLoading = queries.some((q) => q.isLoading);

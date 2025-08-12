@@ -1,5 +1,5 @@
 // src/lib/store/turfApi.ts
-import { toIso } from "@/utils/time";
+import { toIso, dboxTimeToIso } from "@/utils/time";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface SlotPayload {
@@ -22,6 +22,11 @@ interface JaffApiResponse {
   slots: { time: string; status: string }[];
 }
 
+interface DboxApiResponse {
+  date: string;
+  slots: { time: string; status: string }[];
+}
+
 export const turfApi = createApi({
   reducerPath: "turfApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }), // Next‑API base
@@ -34,6 +39,23 @@ export const turfApi = createApi({
         body,
       }),
       providesTags: (r, e, arg) => [{ type: "Slots", id: arg.date }],
+    }),
+
+    getDboxRooftopDay: builder.query<CardData, string /*date*/>({
+      query: (date) => `dbox-rooftop?date=${date}`,
+      transformResponse: (raw: DboxApiResponse) => {
+        return {
+          date: raw.date,
+          startTimes: raw.slots
+            .filter((s) => s.status === "available")
+            .map((s) => {
+              // Extract start and end times from "HH:MM - HH:MM" format
+              const [startTime, endTime] = s.time.split(" - ");
+              return dboxTimeToIso(raw.date, startTime, endTime);
+            }),
+        };
+      },
+      providesTags: (r) => (r ? [{ type: "Slots", id: r.date }] : []),
     }),
 
     getJaffDay: builder.query<CardData, string /*date*/>({
@@ -49,4 +71,8 @@ export const turfApi = createApi({
   }),
 });
 
-export const { useGetTurfNationSlotsQuery, useGetJaffDayQuery } = turfApi;
+export const {
+  useGetTurfNationSlotsQuery,
+  useGetJaffDayQuery,
+  useGetDboxRooftopDayQuery,
+} = turfApi;

@@ -29,7 +29,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="ml-1 underline hover:text-primary"
           >
-            Open-moteo
+            Open-meteo
           </Link>
         </div>
 

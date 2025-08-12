@@ -20,6 +20,7 @@ import Image from "next/image";
 const TURFS = [
   { id: "turf-nation", label: "Turf Nation", href: "/turf/turf-nation" },
   { id: "jaff", label: "JAFF", href: "/turf/jaff" },
+  { id: "dbox-rooftop", label: "DBOX Rooftop", href: "/turf/dbox-rooftop" },
 ];
 
 /* small helper to join classNames */

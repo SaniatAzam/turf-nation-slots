@@ -24,3 +24,19 @@ export function toIso(date: string, range: string): string {
 
   return dt.toISOString();
 }
+
+export function dboxTimeToIso(
+  date: string,
+  startTime: string,
+  endTime: string
+): string {
+  const [startHour, startMin] = startTime.split(":").map(Number);
+
+  const dt = new Date(date);
+  dt.setHours(startHour, startMin, 0, 0);
+
+  // If the slot is after midnight but before 5 AM, roll to next day
+  if (startHour < 5) dt.setDate(dt.getDate() + 1);
+
+  return dt.toISOString();
+}

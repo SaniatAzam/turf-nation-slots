@@ -27,8 +27,8 @@ export function toIso(date: string, range: string): string {
 
 export function dboxTimeToIso(
   date: string,
-  startTime: string,
-  endTime: string
+  startTime: string
+  // endTime: string
 ): string {
   const [startHour, startMin] = startTime.split(":").map(Number);
 

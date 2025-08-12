@@ -50,8 +50,8 @@ export const turfApi = createApi({
             .filter((s) => s.status === "available")
             .map((s) => {
               // Extract start and end times from "HH:MM - HH:MM" format
-              const [startTime, endTime] = s.time.split(" - ");
-              return dboxTimeToIso(raw.date, startTime, endTime);
+              const startTime = s.time.split(" - ")[0];
+              return dboxTimeToIso(raw.date, startTime);
             }),
         };
       },

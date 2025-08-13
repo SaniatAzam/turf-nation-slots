@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Oswald } from "next/font/google";
 import "./globals.css";
-import { NavBar } from "@/components/navbar";
+import NavBar from "@/components/navbar";
+// import { DockNavBar } from "@/components/dock-navbar";
 import { ReduxProvider } from "@/components/redux-provider";
 import { ThemeWrapper } from "@/components/theme-wrapper";
 import { Footer } from "@/components/footer";
@@ -71,7 +72,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeWrapper>
             <NavBar />
-            <div className="pt-16 flex flex-col">
+            <div className="flex flex-col">
               <div>
                 {children} <Analytics />
               </div>

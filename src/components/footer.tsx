@@ -7,7 +7,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-border bg-background text-foreground mt-10 bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] overflow-x-hidden">
+    <footer className="w-full border-t border-border bg-background text-foreground mt-10 bg-gradient-to-br from-[color:var(--card)] to-[color:var(--muted)] overflow-x-hidden px-8">
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* About Section */}

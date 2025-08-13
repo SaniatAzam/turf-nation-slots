@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import ShinyText from "@/components/ui/TextAnimations/ShinyText/ShinyText";
 
 // Backgrounds
 import DarkVeil from "@/components/ui/Backgrounds/DarkVeil/DarkVeil";
@@ -57,8 +56,6 @@ export default function LandingPage() {
             yChannel="G"
             mixBlendMode="screen"
             className="mx-auto max-w-4xl p-6 sm:p-8 text-white"
-            // You can also pass inline style if you want a min-height:
-            // style={{ minHeight: 260 }}
           >
             {/* Card content */}
             <div className="flex w-full flex-col items-center gap-10 lg:flex-row lg:items-start lg:text-left">
@@ -79,20 +76,62 @@ export default function LandingPage() {
                   Find the next futsal spot in Dhaka
                 </p>
 
-                <div className="mt-6">
-                  <Button
-                    asChild
-                    className="w-full rounded-2xl px-6 py-6 text-base text-white shadow-lg transition-all  border-2 bg-gradient-to-br from-[#18181b] to-[#27272a] hover:scale-101 hover:border-primary"
+                <div className="mt-8">
+                  {/* Enhanced CTA Button */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative group"
                   >
-                    <Link href="/turf/turf-nation">
-                      <ShinyText
-                        text="Explore Slots"
-                        disabled={false}
-                        speed={3}
-                        className="custom-class font-light text-xl"
-                      />
-                    </Link>
-                  </Button>
+                    {/* Animated background glow */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 animate-pulse transition duration-1000 group-hover:duration-200"></div>
+
+                    {/* Secondary glow ring */}
+                    <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                    <Button
+                      asChild
+                      className="relative w-full rounded-2xl px-8 py-7 text-lg font-semibold text-white shadow-2xl transition-all duration-300 border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-600 via-green-600 to-emerald-700 hover:border-emerald-400 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-600 hover:shadow-emerald-500/50 group overflow-hidden"
+                    >
+                      <Link
+                        href="/turf/turf-nation"
+                        className="flex items-center justify-center gap-3"
+                      >
+                        <span className="text-xl tracking-wide">
+                          Explore Slots
+                        </span>
+
+                        {/* Simple chevron arrow with hover animation */}
+                        <motion.div
+                          className="opacity-80 group-hover:opacity-100 flex items-center -mt-[7px]"
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          style={{ fontSize: "40px", lineHeight: -1 }}
+                        >
+                          ›
+                        </motion.div>
+
+                        {/* Animated shine overlay */}
+                        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+                      </Link>
+                    </Button>
+                  </motion.div>
+
+                  {/* Supporting text */}
+                  {/* <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    className="mt-4 text-sm text-emerald-300/70 flex items-center justify-center gap-2"
+                  >
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    Live availability
+                  </motion.p> */}
                 </div>
               </div>
             </div>

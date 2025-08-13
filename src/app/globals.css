@@ -151,3 +151,39 @@
     }
   }
 }
+
+/* Enhanced backdrop blur support */
+.backdrop-blur-xl {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom glow effects */
+.shadow-green-400\/20 {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+}
+
+.shadow-sky-400\/20 {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.shadow-purple-500\/20 {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+}
+
+.hover\:shadow-green-400\/40:hover {
+  box-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
+}
+
+.hover\:shadow-sky-400\/40:hover {
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+}
+
+.hover\:shadow-purple-500\/40:hover {
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+}

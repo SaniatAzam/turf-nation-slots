@@ -67,7 +67,7 @@ export default function RootLayout({
     <html lang="en">
       <head>{/* <link rel="icon" href="/favicon.png" sizes="any" /> */}</head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${gothic.variable} antialiased flex  min-h-screen justify-center items-center`}
+        className={`${geistSans.variable} ${geistMono.variable} ${gothic.variable} antialiased flex  min-h-screen justify-center items-center overflow-x-hidden`}
       >
         <ReduxProvider>
           <ThemeWrapper>
